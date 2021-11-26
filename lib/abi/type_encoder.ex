@@ -176,7 +176,7 @@ defmodule ABI.TypeEncoder do
     do_encode_type({:uint, 160}, data, static_acc, dynamic_acc)
   end
 
-  defp do_encode_type(type = {:tuple, types}, tuple_parameters, static_acc, dynamic_acc)
+  defp do_encode_type({:tuple, types}, tuple_parameters, static_acc, dynamic_acc)
        when is_tuple(tuple_parameters) do
     list_parameters = Tuple.to_list(tuple_parameters)
 
@@ -208,7 +208,7 @@ defmodule ABI.TypeEncoder do
     kec =
       function_selector
       |> FunctionSelector.encode()
-      |> ExKeccak.hash_256()
+      |> ExSha3.keccak_256()
 
     # Take first four bytes
     <<init::binary-size(4), _rest::binary>> = kec
